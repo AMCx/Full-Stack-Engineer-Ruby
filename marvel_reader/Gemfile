@@ -62,3 +62,8 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+
+
+gem 'interactor-rails'
+#<URI::HTTP http://gateway.marvel.com/v1/comics?ts=1&apikey=31bf848511af9ccb8d3b3d6423075af4&hash=95bf33261c85d320a38b
+gem 'rest-client'
