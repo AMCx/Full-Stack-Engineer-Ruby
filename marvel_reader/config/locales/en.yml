@@ -20,4 +20,8 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  page:
+    shared:
+      total_records_found: '%{n} records have been found!'
+      visible_records_found: '%{n} records have been found!'
+    comics:

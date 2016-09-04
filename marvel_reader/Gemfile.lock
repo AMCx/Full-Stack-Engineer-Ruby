@@ -40,7 +40,16 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.4.0)
     arel (7.1.1)
+    autoprefixer-rails (6.4.0.3)
+      execjs
     bcrypt (3.1.11)
+    better_errors (2.1.1)
+      coderay (>= 1.0.0)
+      erubis (>= 2.6.6)
+      rack (>= 0.9.0)
+    bootstrap-sass (3.3.7)
+      autoprefixer-rails (>= 5.2.1)
+      sass (>= 3.3.4)
     builder (3.2.2)
     byebug (9.0.5)
     capybara (2.8.1)
@@ -71,6 +80,10 @@ GEM
     diff-lcs (1.2.5)
     domain_name (0.5.20160615)
       unf (>= 0.0.5, < 1.0.0)
+    dotenv (2.1.1)
+    dotenv-rails (2.1.1)
+      dotenv (= 2.1.1)
+      railties (>= 4.0, < 5.1)
     erubis (2.7.0)
     execjs (2.7.0)
     factory_girl (4.7.0)
@@ -114,17 +127,24 @@ GEM
     listen (3.0.8)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
+    lograge (0.4.1)
+      actionpack (>= 4, < 5.1)
+      activesupport (>= 4, < 5.1)
+      railties (>= 4, < 5.1)
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
     lumberjack (1.0.10)
     mail (2.6.4)
       mime-types (>= 1.16, < 4)
+    meta-tags (2.2.0)
+      actionpack (>= 3.2.0)
     method_source (0.8.2)
     mime-types (3.1)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2016.0521)
     mini_portile2 (2.1.0)
     minitest (5.9.0)
+    modernizr-rails (2.7.1)
     multi_json (1.12.1)
     nenv (0.3.0)
     netrc (0.11.0)
@@ -136,6 +156,7 @@ GEM
       nenv (~> 0.1)
       shellany (~> 0.0)
     orm_adapter (0.5.0)
+    pg (0.18.4)
     pkg-config (1.1.7)
     pry (0.10.4)
       coderay (~> 1.1.0)
@@ -260,18 +281,26 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  better_errors
+  bootstrap-sass
   byebug
   capybara
   coffee-rails (~> 4.2)
   devise
+  dotenv-rails
   factory_girl_rails
   guard-rspec
   interactor-rails
   jbuilder (~> 2.5)
   jquery-rails
   listen (~> 3.0.5)
+  lograge
+  meta-tags
+  modernizr-rails
+  pg
   puma (~> 3.0)
   rails (~> 5.0.0, >= 5.0.0.1)
+  responders (~> 2.0)
   rest-client
   rspec-rails
   sass-rails (~> 5.0)
