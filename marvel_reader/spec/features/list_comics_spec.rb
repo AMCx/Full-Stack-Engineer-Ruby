@@ -6,20 +6,34 @@ feature "List Comics", :type => :feature do
 
     visit root_path
 
-    expect( page.body ).to include( 'Marvel comics, from the begining of time onwards!' )
+    expect( page.body ).to include( I18n.t('page.comics.sub_title') )
 
   end
 
   it "should allow search by comic title" do
     visit root_path
 
-    within "#search" do
-      fill_in "comic_name", with: "no_comic_should_ever_be_found"
+    within ".search-area" do
+      fill_in "search_name", with: "Hulk"
     end
 
     click_button "Search comics"
 
-    expect( page.body ).to_not include( "No comics have been found!." )
+    expect(page).to have_selector('.comics-list-container')
+    expect( page.body ).to include( "Hulk" )
+  end
+
+  it "should allow search by comic title, failing" do
+    visit root_path
+
+    within ".search-area" do
+      fill_in "search_name", with: "no_comic_should_ever_be_found"
+    end
+
+    click_button 'Search comics'
+
+    expect(page).to_not have_selector('.comics-list-container')
+    expect( page.body ).to include( I18n.t('page.comics.no_results') )
   end
 
   it "should allow filter by character name" do

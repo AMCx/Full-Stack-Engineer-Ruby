@@ -24,4 +24,10 @@ en:
     shared:
       total_records_found: '%{n} records have been found!'
       visible_records_found: '%{n} records have been found!'
+      search: 'Search'
     comics:
+      title: 'Marvel comics'
+      sub_title: 'Marvel comics, from the begining of time onwards!'
+      comic_name: 'Search by comic name'
+      search_comic: 'Search comics'
+      no_results: 'No comics have been found!.'

@@ -11,12 +11,22 @@ class ComicReader
     init_params
     @resource = context.resource || 'comics'
     @resource_id = context.resource_id || false
-    @timeout = context.timeout || 10
+    @sub_resource = context.sub_resource || false
 
-    @allow_cache = context.allow_cache || true
+    @timeout = context.timeout || 10
+    _search = context.search || {}
+
+    @search_filters = {}
+
+
+    @search_filters[:'nameStartsWith'] = _search['name'] if _search['name'].present?
+
+
+    @allow_cache = false #context.allow_cache || true
 
     @resource_filter = @resource
     @resource_filter = "#{@resource}/#{@resource_id}" if @resource_id
+    @resource_filter = "#{@resource}/#{@resource_id}/#{@sub_resource}" if @resource_id && @sub_resource
 
     @api_params = {
         ts: @ts,
@@ -28,10 +38,12 @@ class ComicReader
         limit: (context.limit || 10),
         offset: (context.offset || 0)
 
-    }
+    }.merge(@search_filters)
+
+    Rails.logger.debug("Calling remote service with: #{@params}")
 
     #set cache_key
-    @key = "@resource::#{@params.map{|k,v| "#{k}:{v}".downcase }.sort_by!{ |e| e }.join('::')}"
+    @key = "@resource::#{@resource_filter}#{@params.map{|k,v| "#{k}:{v}".downcase }.sort_by!{ |e| e }.join('::')}"
 
     # check cache
     @cached_data = Rails.cache.read(@key) unless !@allow_cache
@@ -51,35 +63,43 @@ class ComicReader
     end
 
     if @launch_request
-      # Cache info if request had success
-      begin
-        _params = @api_params.merge( @params )
-        _ret = RestClient.get "#{@api_base_url}#{@resource}", { params: (_params), accept: :json, timeout: @timeout, open_timeout: @timeout }
-
-        @data = JSON.parse(_ret)
-
-        if @data['code'].to_i == 200
-          Rails.cache.write(@key, {info: @data, timestamp: Time.now})
-        else
-          context.errors = @data
-          context.fail!(message: "Error code #{@data['code']}")
-        end
-
-      rescue Exception => ex
-
-        @data = {
-            code: 500,
-            error: 'Timeout'
-        }
-        context.errors = @data
-        context.fail!(message: "'Timeout' #{ex.message}")
-
-      end
-
+      Rails.logger.debug("No local cache, calling remote")
+      launch_api_request
+    else
+      Rails.logger.debug("Local cache hit!, cache age is #{@age}")
     end
 
     context.result = @data
 
+  end
+
+  private
+
+  def launch_api_request
+    begin
+      _params = @api_params.merge(@params)
+      _ret = RestClient.get "#{@api_base_url}#{@resource_filter}", {params: (_params), accept: :json, timeout: @timeout, open_timeout: @timeout}
+
+      @data = JSON.parse(_ret)
+
+      if @data['code'].to_i == 200
+        # Cache info if request had success
+        Rails.cache.write(@key, {info: @data, timestamp: Time.now})
+      else
+        context.errors = @data
+        context.fail!(message: "Error code #{@data['code']}")
+      end
+
+    rescue Exception => ex
+
+      @data = {
+          code: 500,
+          error: 'Timeout'
+      }
+      context.errors = @data
+      context.fail!(message: "'Timeout' #{ex.message}")
+
+    end
   end
 
   def init_params
