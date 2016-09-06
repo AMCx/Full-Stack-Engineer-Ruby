@@ -1,0 +1,187 @@
+/* Preloader styles
+-------------------------------------------------- */
+
+#preloader {
+  position: fixed;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  opacity: 0.4;
+  filter: Alpha(40);
+  background-color: #FFFFFF;
+  z-index: 999999;
+  display: none;
+}
+
+.loading #loader-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 999999;
+}
+
+.loading #loader {
+  display: block;
+  position: relative;
+  left: 50%;
+  top: 50%;
+  width: 150px;
+  height: 150px;
+  margin: -75px 0 0 -75px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  border-top-color: #c40007;
+
+  -webkit-animation: spin 2s linear infinite; /* Chrome, Opera 15+, Safari 5+ */
+  animation: spin 2s linear infinite; /* Chrome, Firefox 16+, IE 10+, Opera */
+}
+
+.loading #loader:before {
+  content: "";
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  right: 5px;
+  bottom: 5px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  border-top-color: #944600;
+
+  -webkit-animation: spin 3s linear infinite; /* Chrome, Opera 15+, Safari 5+ */
+  animation: spin 3s linear infinite; /* Chrome, Firefox 16+, IE 10+, Opera */
+}
+
+.loading #loader:after {
+  content: "";
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  right: 15px;
+  bottom: 15px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  border-top-color: rgba(19, 18, 7, 0.98);
+
+  -webkit-animation: spin 1.5s linear infinite; /* Chrome, Opera 15+, Safari 5+ */
+  animation: spin 1.5s linear infinite; /* Chrome, Firefox 16+, IE 10+, Opera */
+}
+
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg); /* Chrome, Opera 15+, Safari 3.1+ */
+    -ms-transform: rotate(0deg); /* IE 9 */
+    transform: rotate(0deg); /* Firefox 16+, IE 10+, Opera */
+  }
+  100% {
+    -webkit-transform: rotate(360deg); /* Chrome, Opera 15+, Safari 3.1+ */
+    -ms-transform: rotate(360deg); /* IE 9 */
+    transform: rotate(360deg); /* Firefox 16+, IE 10+, Opera */
+  }
+}
+
+@keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg); /* Chrome, Opera 15+, Safari 3.1+ */
+    -ms-transform: rotate(0deg); /* IE 9 */
+    transform: rotate(0deg); /* Firefox 16+, IE 10+, Opera */
+  }
+  100% {
+    -webkit-transform: rotate(360deg); /* Chrome, Opera 15+, Safari 3.1+ */
+    -ms-transform: rotate(360deg); /* IE 9 */
+    transform: rotate(360deg); /* Firefox 16+, IE 10+, Opera */
+  }
+}
+
+/* Inline Preloader styles
+-------------------------------------------------- */
+
+.inline_preloader {
+  position: relative;
+  left: 50%;
+  margin-top: 24px;
+  margin-left: -20px;
+  height: 20px;
+}
+
+.inline_preloader:before {
+  width: 20px;
+  height: 20px;
+  border-radius: 20px;
+  background: #000;
+  content: '';
+  position: absolute;
+  background: #602161;
+  animation: inline_preloader_before 1.5s infinite ease-in-out;
+  -webkit-animation: inline_preloader_before 1.5s infinite ease-in-out;
+}
+
+.inline_preloader:after {
+  width: 20px;
+  height: 20px;
+  border-radius: 20px;
+  content: '';
+  position: absolute;
+  background: #000;
+  left: 22px;
+  animation: inline_preloader_after 1.5s infinite ease-in-out;
+  -webkit-animation: inline_preloader_after 1.5s infinite ease-in-out;
+}
+
+@keyframes inline_preloader_before {
+  0% {
+    transform: translateX(0px) rotate(0deg)
+  }
+  50% {
+    transform: translateX(50px) scale(1.2) rotate(260deg);
+    background: #000;
+    border-radius: 0px;
+  }
+  100% {
+    transform: translateX(0px) rotate(0deg)
+  }
+}
+
+@-webkit-keyframes inline_preloader_before {
+  0% {
+    transform: translateX(0px) rotate(0deg)
+  }
+  50% {
+    transform: translateX(50px) scale(1.2) rotate(260deg);
+    background: #000;
+    border-radius: 0px;
+  }
+  100% {
+    transform: translateX(0px) rotate(0deg)
+  }
+}
+
+@keyframes inline_preloader_after {
+  0% {
+    transform: translateX(0px)
+  }
+  50% {
+    transform: translateX(-50px) scale(1.2) rotate(-260deg);
+    background: #602161;
+    border-radius: 0px;
+  }
+  100% {
+    transform: translateX(0px)
+  }
+}
+
+@-webkit-keyframes inline_preloader_after {
+  0% {
+    transform: translateX(0px)
+  }
+  50% {
+    transform: translateX(-50px) scale(1.2) rotate(-260deg);
+    background: #602161;
+    border-radius: 0px;
+  }
+  100% {
+    transform: translateX(0px)
+  }
+}

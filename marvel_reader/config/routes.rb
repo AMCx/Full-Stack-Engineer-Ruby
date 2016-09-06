@@ -1,8 +1,12 @@
 Rails.application.routes.draw do
 
   root 'comics#index'
-  get 'comics/index'
+  resources :comics, only: :index
 
-  devise_for :users
+  namespace :api, defaults: {format: :json} do
+    scope module: :v1, constraints: ApiConstraints.new(version: 1, default: :true) do
+      resources :characters, only: :index
+    end
+  end
 
 end

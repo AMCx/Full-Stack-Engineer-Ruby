@@ -12,5 +12,18 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery-ui/autocomplete
 // require turbolinks
 //= require_tree .
+
+
+
+
+showLoading = function () {
+    $("#preloader").addClass("loading").show();
+    return this
+};
+hideLoading = function () {
+    $("#preloader").removeClass("loading").fadeOut();
+    return this
+};

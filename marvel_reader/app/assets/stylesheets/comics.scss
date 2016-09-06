@@ -1,3 +1,19 @@
 // Place all the styles related to the comics controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+#character-label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 1em;
+}
+#character-icon {
+  float: left;
+  height: 32px;
+  width: 32px;
+}
+#character-description {
+  margin: 0;
+  padding: 0;
+}

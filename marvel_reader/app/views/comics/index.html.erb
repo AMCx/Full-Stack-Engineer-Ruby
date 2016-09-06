@@ -1,31 +1,46 @@
+<div class="comics">
 
-<h1><%= t('page.comics.title')%></h1>
-<p><%= t('page.comics.sub_title')%></p>
+  <h1><%= t('page.comics.title') %></h1>
+  <p><%= t('page.comics.sub_title') %></p>
 
-<div class="search-area xperiences-search-container">
+  <div class="search-area">
 
-    <%= form_tag(root_path, method: 'get', id: 'comics-search-form',role: 'search', class:'character-search', remote: false ) do %>
 
-          <div class="">
-            <%= search_field(:search, :name, class: "form-main", role: 'main-search', placeholder: "Search") %>
-          </div>
 
-          <div class="">
-              <%= submit_tag(t('page.comics.search_comic') , class: 'btn btn-default' )%>
-          </div>
+    <%= form_tag(root_path, method: 'get', id: 'comics-search-form', role: 'search', class: 'character-search', remote: false) do %>
+
+        <div class="ui-widget">
+
+          <img id="character-icon" src="images/transparent_1x1.png" class="ui-state-default" alt="">
+          <%= search_field(:search, :name, class: "form-main", id: 'character-name', role: 'main-search', placeholder: "Search for marvel charcters or teams ...") %>
+          <input type="hidden" id="character-id">
+          <p id="character-description"></p>
+
+          <div class="results" id="character-search-results"></div>
+
+        </div>
+
+        <div class="">
+            <%= submit_tag(t('page.comics.search_comic'), class: 'btn btn-default') %>
+        </div>
     <% end %>
 
-</div>
-
-<% if @comics.present? %>
-  <div class="comics-list-container">
-    <% @comics.each do |comic| %>
-     <%= render partial: '/comics/partials/comic', locals: {comic: comic }%>
-    <% end -%>
   </div>
-    <%= @comics.as_json %>
-<% else %>
-    <%= t('page.comics.no_results') %>
-<% end -%>
 
+  <% if @comics.present? %>
+      <div class="comics-list-container">
+        <% @comics.each do |comic| %>
+            <%= render partial: '/comics/partials/comic', locals: {comic: comic} %>
+        <% end -%>
+      </div>
+      <div class="paging">
+
+      </div>
+  <% else %>
+      <div class="missing-comics-container">
+      <%= t('page.comics.no_results') %>
+      </div>
+  <% end -%>
+
+</div>
 
