@@ -14,11 +14,11 @@ module Api::V1
       _page_params = accepted_params
 
       if _comic_reader.success?
-        # a very, very simple serialization
         @characters = _comic_reader.result['data']['results'].map do |data|
           Character.new(data)
         end
 
+        # a very, very simple serialization
         _response_json = @characters.map do |character|
           {
               id: character.id,

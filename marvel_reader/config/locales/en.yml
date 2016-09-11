@@ -31,3 +31,6 @@ en:
       comic_name: 'Search by comic name'
       search_comic: 'Search comics'
       no_results: 'No comics have been found!.'
+      previous-page: 'Previous page'
+      next-page: 'Next page'
+      search_placeholder: "Search for marvel characters or teams ..."

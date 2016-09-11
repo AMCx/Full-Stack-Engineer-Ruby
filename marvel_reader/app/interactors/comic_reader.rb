@@ -57,7 +57,7 @@ class ComicReader
 
       # 86400 24h minutes
       # 600  10 minutes
-      if @age > 600 # 10 minutes
+      if @age > 86400
         @launch_request = true
       end
     end

@@ -4,15 +4,17 @@ class Comic
            :title,
            :issue_number,
            :dates,
-           :thumbnail
+           :thumbnail,
+           :favorite
   ]
 
   attr_accessor(*ATTRS)
 
   #autoassign object attributes from hash
   def initialize(params= {})
-    params.each { |k, v| instance_variable_set("@#{k.underscore}", v) if ATTRS.include?(k.to_sym) }
+    params.each { |k, v| instance_variable_set("@#{k.to_s.underscore}", v) if ATTRS.include?(k.to_sym) }
     set_dates
+@favorite=  [true, false].sample
 
   end
 
@@ -23,7 +25,6 @@ class Comic
   def onsale_date_year
     @onsale_date_year
   end
-
 
   private
 

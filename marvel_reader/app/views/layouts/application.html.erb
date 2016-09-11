@@ -13,10 +13,10 @@
   <body class="<%= controller.controller_name %>" >
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
-
-    <%= yield %>
-
-    <%= render 'footer' %>
+    <div class="container">
+      <%= yield %>
+    </div>
+    <%#= render 'footer' %>
     <!-- Begin preloader -->
     <%= render partial: 'layouts/partials/preloader' %>
     <!-- End preloader -->

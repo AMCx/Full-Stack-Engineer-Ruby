@@ -2,18 +2,285 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+@import "bootstrap-sprockets";
+@import "bootstrap";
 
-#character-label {
-  display: block;
-  font-weight: bold;
-  margin-bottom: 1em;
+$mainColor: #fe0000;
+$secondaryColor: #555555;
+$lightText: #FFF;
+$darkText: #000;
+
+/* universal */
+
+body {
+  padding-top: 90px;
 }
-#character-icon {
-  float: left;
-  height: 32px;
-  width: 32px;
+
+section {
+  overflow: auto;
 }
-#character-description {
-  margin: 0;
-  padding: 0;
+
+textarea {
+  resize: vertical;
+}
+
+.center {
+  text-align: center;
+}
+
+.center h1 {
+  margin-bottom: 10px;
+}
+
+/* typography */
+
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1;
+}
+
+h1 {
+  font-size: 3em;
+  letter-spacing: -2px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+h2 {
+  font-size: 1.2em;
+  letter-spacing: -1px;
+  margin-bottom: 30px;
+  text-align: center;
+  font-weight: normal;
+  color: #777;
+}
+
+p {
+  font-size: 1.1em;
+  line-height: 1.7em;
+}
+
+/* header */
+
+#logo {
+
+  padding-bottom: 18px;
+  padding-top: 15px;
+}
+
+#custom-nav {
+  background-color: $mainColor;
+  border: 0;
+  box-shadow: none;
+  z-index: 999;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-transition: background .5s ease-in-out, opacity .5s ease;
+  -moz-transition: background .5s ease-in-out, opacity .5s ease;
+  transition: background .5s ease-in-out, opacity .5s ease;
+}
+
+#custom-nav .container {
+  -webkit-transition: padding-top .5s ease, padding-bottom .5s ease;
+  -moz-transition: padding-top .5s ease, padding-bottom .5s ease;
+  transition: padding-top .5s ease, padding-top .5s ease, padding-bottom .5s ease;
+}
+
+#custom-nav.affix {
+  top: 0;
+  min-width: 100%;
+  background-color: $mainColor;
+  opacity: 0.8;
+  -webkit-transition: background .5s ease-in-out, opacity .5s ease;
+  -moz-transition: background .5s ease-in-out, opacity .5s ease;
+  transition: background .5s ease-in-out, opacity .5s ease;
+}
+
+//Comics
+
+.comics{
+
+  background-color: $secondaryColor;
+
+  .comic-item{
+
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+  }
+
+
+  .layer {
+    background-color: rgba(23, 23, 24, 0.7);
+  }
+
+  .mosaic{
+    margin:9px;
+    padding:0px;
+    width: 225px;
+    height: 324px;
+
+    box-shadow: -3px 6px 5px $darkText;
+    background-size: 100%;
+
+    :hover{
+      cursor: pointer; cursor: hand;
+    }
+
+    .comic-release-container{
+
+      position: absolute;
+      bottom: 16px;
+      left: 25px;
+
+      .comic-number{
+        color: $lightText;
+        font-size: 20px;
+        text-align: center;
+        background-color: $mainColor;
+        min-height: 28px;
+        min-width: 45px;
+      }
+
+      .comic-year{
+        color: $lightText;
+        font-size: 15px;
+        font-style: italic;
+        text-align: center;
+        background-color: #2E2F30;
+        min-height: 28px;
+        min-width: 45px;
+        padding: 3px;
+      }
+
+    }
+
+    .comic-info-container{
+      font-family: Arial;
+
+      position: absolute;
+      bottom: 50px;
+      left:30px;
+      right:29px;
+      text-shadow: 2px 2px 2px $darkText;
+
+      color: $lightText;
+      font-size: 18px;
+      text-transform: uppercase;
+      font-weight: bold;
+
+    }
+
+  }
+
+
+  .comics-list-container{
+
+  }
+
+  .favorite-comic{
+    border: solid 10px $mainColor;
+  }
+
+  .favorites{
+    padding-top:15px;
+    padding-rigth:15px;
+    //border: solid 1px $mainColor;
+    width: 42px;
+    height: 39px;
+    position: absolute;
+    right: 25px;
+    top: 15px;
+
+  }
+
+  .heart-on{
+    background-image: asset_url('/assets/heart_on.png');
+    :hover {
+      background-image: asset_url('/assets/heart_off.png');
+    }
+  }
+
+  .heart-off {
+    background-image: asset_url('/assets/heart_off.png');
+    :hover {
+      background-image: asset_url('/assets/heart_on.png');
+    }
+  }
+
+  .previous-page a{
+    position: absolute;
+    left: 25px;
+  }
+
+  .next-page a{
+    position: absolute;
+    right: 25px;
+  }
+
+  .paging{
+    a:hover, a:active {
+      text-decoration: none;
+      display: inline-block;
+      background-color: $mainColor;
+      color: #FFFFFF;
+    }
+  }
+
+  .paging{
+    margin-top: 25px;
+    margin-bottom: 25px;
+  }
+
+  .paging a{
+    padding: 8px;
+    background-color: #FFFFFF;
+    color: $mainColor;
+    font-size: 21px;
+    text-transform: uppercase;
+    font-weight: bold;
+    :hover{
+      background-color: $mainColor;
+      color: #FFFFFF;
+    }
+
+
+
+  }
+
+
+
+  //Search
+  #character-label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 1em;
+  }
+  #character-icon {
+    float: left;
+    height: 32px;
+    width: 32px;
+  }
+  #character-description {
+    margin: 0;
+    padding: 0;
+  }
+
+  .comic-container{
+
+  }
+
+  #character-name{
+    max-width: 400px;
+  }
+  .form-control::-webkit-input-placeholder { font-style: italic; }
+  .form-control:-moz-placeholder { font-style: italic; }
+  .form-control::-moz-placeholder { font-style: italic; }
+  .form-control:-ms-input-placeholder { font-style: italic; }
+  .form-control {
+    height: 37px;
+  }
+
+
 }

@@ -1,40 +1,57 @@
 <div class="comics">
 
-  <h1><%= t('page.comics.title') %></h1>
-  <p><%= t('page.comics.sub_title') %></p>
 
-  <div class="search-area">
+  <header id="custom-nav" class="navbar navbar-fixed-top navbar-inverse">
+    <div class="container">
+      <div class="row">
+        <img src="<%= image_path('marvel_logo')%>" alt="" id="logo">
+      </div>
 
+      <div class="search-area row" style="align-content: center">
 
+        <%= form_tag(root_path, method: 'get', id: 'comics-search-form', role: 'search', class: 'character-search', remote: false) do %>
 
-    <%= form_tag(root_path, method: 'get', id: 'comics-search-form', role: 'search', class: 'character-search', remote: false) do %>
+            <div class="ui-widget">
 
-        <div class="ui-widget">
+              <img id="character-icon" src="<%= image_path( 'transparent_1x1') %>" class="ui-state-default hidden" alt="">
+              <%= search_field(:search, :name,
+                               class: 'form-control', id: 'character-name', role: 'main-search',
+                               placeholder: t('page.comics.search_placeholder'),
 
-          <img id="character-icon" src="images/transparent_1x1.png" class="ui-state-default" alt="">
-          <%= search_field(:search, :name, class: "form-main", id: 'character-name', role: 'main-search', placeholder: "Search for marvel charcters or teams ...") %>
-          <input type="hidden" id="character-id">
-          <p id="character-description"></p>
+                               maxlength: 40, size: 40,
+                               #autosave: true, onsearch: true
+                               ) %>
+              <input type="hidden" id="character-id">
+              <p id="character-description"></p>
 
-          <div class="results" id="character-search-results"></div>
+              <div class="results" id="character-search-results"></div>
 
-        </div>
+            </div>
 
-        <div class="">
-            <%= submit_tag(t('page.comics.search_comic'), class: 'btn btn-default') %>
-        </div>
-    <% end %>
+            <div class="">
+                <%= submit_tag(t('page.comics.search_comic'), class: 'btn btn-default hidden') %>
+            </div>
+        <% end %>
 
-  </div>
+      </div>
+    </div>
+  </header>
 
   <% if @comics.present? %>
-      <div class="comics-list-container">
+      <div class="row comics-list-container">
+
         <% @comics.each do |comic| %>
             <%= render partial: '/comics/partials/comic', locals: {comic: comic} %>
         <% end -%>
-      </div>
-      <div class="paging">
 
+      </div>
+      <div class="row paging">
+        <div class="previous-page col-xs-12 col-sm-6 col-md-6 col-lg-6" role="previous-page">
+          <%= link_to(t('page.comics.previous-page'), root_path(offset: (@offset.to_i-(@limit.to_i))), limit: @limit, class: '' )%>
+        </div>
+        <div class="next-page col-xs-12 col-sm-6 col-md-6 col-lg-6" role="next-page">
+          <%= link_to(t('page.comics.next-page'), root_path(offset: ((@offset||0).to_i+(@limit.to_i))), limit: @limit, class: '' )%>
+        </div>
       </div>
   <% else %>
       <div class="missing-comics-container">

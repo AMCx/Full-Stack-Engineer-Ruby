@@ -13,6 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery-ui/autocomplete
+//= require bootstrap
 // require turbolinks
 //= require_tree .
 
@@ -27,3 +28,14 @@ hideLoading = function () {
     $("#preloader").removeClass("loading").fadeOut();
     return this
 };
+
+
+$(window).scroll(function() {
+    if ($(".navbar").offset().top > 50) {
+        $('#custom-nav').addClass('affix');
+        $(".navbar-fixed-top").addClass("top-nav-collapse");
+    } else {
+        $('#custom-nav').removeClass('affix');
+        $(".navbar-fixed-top").removeClass("top-nav-collapse");
+    }
+});

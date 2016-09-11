@@ -3,9 +3,12 @@ class ComicsController < ApplicationController
   def index
     logger.debug("Calling service ...")
 
-    find_comics
+    @comic_reader = ComicReader.call(accepted_params)
 
     if @comic_reader.success?
+
+      #get favorites
+      @favorite_comics = Favorite.where('comic_id IN(?)', @comic_reader.result['data']['results'].map{|c| c['id'] }).pluck(:comic_id)
 
       # Todo Refactor
       # reader result info
@@ -13,7 +16,9 @@ class ComicsController < ApplicationController
       @limit  = @comic_reader.result['data']['limit']
       @total  = @comic_reader.result['data']['total']
       @count  = @comic_reader.result['data']['count']
-      @comics = @comic_reader.result['data']['results'].map { |c| Comic.new(c) }
+      @comics = @comic_reader.result['data']['results'].map { |c| Comic.new(c.merge({favorite: @favorite_comics.include?(c['id'].to_i) })) }
+
+
     else
       @comics = []
       flash[:error] = t('pages.comics.index.errors.not_found')
@@ -23,7 +28,7 @@ class ComicsController < ApplicationController
 
   private
   def accepted_params
-    params.permit(:limit, :offset, :order_by) #, {search: [:name]})
+    params.permit(:limit, :offset, :order_by, :character_id) #, {search: [:name]})
   end
 
 
