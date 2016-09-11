@@ -2,15 +2,12 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-@import "bootstrap-sprockets";
-@import "bootstrap";
-
 $mainColor: #fe0000;
-$secondaryColor: #555555;
+$secondaryColor: #171718;
+$shadow: #555555;
 $lightText: #FFF;
 $darkText: #000;
 
-/* universal */
 
 body {
   padding-top: 90px;
@@ -97,11 +94,11 @@ p {
 
 //Comics
 
-.comics{
-
+.comics {
+width: 100%;
   background-color: $secondaryColor;
 
-  .comic-item{
+  .comic-item {
 
     top: 0;
     left: 0;
@@ -110,31 +107,32 @@ p {
 
   }
 
-
   .layer {
     background-color: rgba(23, 23, 24, 0.7);
   }
 
-  .mosaic{
-    margin:9px;
-    padding:0px;
-    width: 225px;
-    height: 324px;
+  .mosaic {
+    margin: 6px;
+    padding: 0px;
+    width: 220px;
+    height: 321px;
 
-    box-shadow: -3px 6px 5px $darkText;
+    //box-shadow: -3px 6px 5px $darkText;
+    box-shadow:  0px 3px 40px -2px $shadow;
     background-size: 100%;
 
-    :hover{
-      cursor: pointer; cursor: hand;
+    :hover {
+      cursor: pointer;
+      cursor: hand;
     }
 
-    .comic-release-container{
+    .comic-release-container {
 
       position: absolute;
       bottom: 16px;
       left: 25px;
 
-      .comic-number{
+      .comic-number {
         color: $lightText;
         font-size: 20px;
         text-align: center;
@@ -143,7 +141,7 @@ p {
         min-width: 45px;
       }
 
-      .comic-year{
+      .comic-year {
         color: $lightText;
         font-size: 15px;
         font-style: italic;
@@ -156,13 +154,13 @@ p {
 
     }
 
-    .comic-info-container{
+    .comic-info-container {
       font-family: Arial;
 
       position: absolute;
       bottom: 50px;
-      left:30px;
-      right:29px;
+      left: 30px;
+      right: 29px;
       text-shadow: 2px 2px 2px $darkText;
 
       color: $lightText;
@@ -174,18 +172,18 @@ p {
 
   }
 
-
-  .comics-list-container{
+  .comics-list-container {
 
   }
 
-  .favorite-comic{
+
+  .favorite-comic {
     border: solid 10px $mainColor;
   }
 
-  .favorites{
-    padding-top:15px;
-    padding-rigth:15px;
+  .favorites {
+    padding-top: 15px;
+    padding-rigth: 15px;
     //border: solid 1px $mainColor;
     width: 42px;
     height: 39px;
@@ -195,7 +193,7 @@ p {
 
   }
 
-  .heart-on{
+  .heart-on {
     background-image: asset_url('/assets/heart_on.png');
     :hover {
       background-image: asset_url('/assets/heart_off.png');
@@ -209,17 +207,17 @@ p {
     }
   }
 
-  .previous-page a{
+  .previous-page a {
     position: absolute;
     left: 25px;
   }
 
-  .next-page a{
+  .next-page a {
     position: absolute;
     right: 25px;
   }
 
-  .paging{
+  .paging {
     a:hover, a:active {
       text-decoration: none;
       display: inline-block;
@@ -228,30 +226,40 @@ p {
     }
   }
 
-  .paging{
+  .paging {
     margin-top: 25px;
     margin-bottom: 25px;
   }
 
-  .paging a{
-    padding: 8px;
+  .paging a {
+    padding: 3px 8px 3px 8px;
     background-color: #FFFFFF;
     color: $mainColor;
     font-size: 21px;
     text-transform: uppercase;
     font-weight: bold;
-    :hover{
+    :hover {
       background-color: $mainColor;
       color: #FFFFFF;
     }
 
+  }
 
+  //Search
+
+  #logo {
+
+    margin: auto;
+    width: 130px;
+    display: block;
 
   }
 
+  .center-search {
+    margin: auto;
+    width: 400px;
+  }
 
-
-  //Search
   #character-label {
     display: block;
     font-weight: bold;
@@ -267,20 +275,25 @@ p {
     padding: 0;
   }
 
-  .comic-container{
 
-  }
-
-  #character-name{
+  #character-name {
     max-width: 400px;
+    margin:auto;
   }
-  .form-control::-webkit-input-placeholder { font-style: italic; }
-  .form-control:-moz-placeholder { font-style: italic; }
-  .form-control::-moz-placeholder { font-style: italic; }
-  .form-control:-ms-input-placeholder { font-style: italic; }
+  .form-control::-webkit-input-placeholder {
+    font-style: italic;
+  }
+  .form-control:-moz-placeholder {
+    font-style: italic;
+  }
+  .form-control::-moz-placeholder {
+    font-style: italic;
+  }
+  .form-control:-ms-input-placeholder {
+    font-style: italic;
+  }
   .form-control {
     height: 37px;
   }
-
 
 }
