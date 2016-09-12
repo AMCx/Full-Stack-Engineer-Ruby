@@ -14,7 +14,7 @@ class Comic
   def initialize(params= {})
     params.each { |k, v| instance_variable_set("@#{k.to_s.underscore}", v) if ATTRS.include?(k.to_sym) }
     set_dates
-@favorite=  [true, false].sample
+    #@favorite=  [true, false].sample
 
   end
 

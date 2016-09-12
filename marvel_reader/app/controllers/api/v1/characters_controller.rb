@@ -17,7 +17,7 @@ module Api::V1
         @characters = _comic_reader.result['data']['results'].map do |data|
           Character.new(data)
         end
-
+byebug
         # a very, very simple serialization
         _response_json = @characters.map do |character|
           {

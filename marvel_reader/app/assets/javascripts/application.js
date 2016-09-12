@@ -14,21 +14,23 @@
 //= require jquery_ujs
 //= require jquery-ui/autocomplete
 //= require bootstrap
+//= require external_lib/bootstrap-notify
+
 // require turbolinks
 //= require_tree .
 
+var utils = window.utils = {};
 
 
 
-showLoading = function () {
+utils.showLoading = function () {
     $("#preloader").addClass("loading").show();
     return this
 };
-hideLoading = function () {
+utils.hideLoading = function () {
     $("#preloader").removeClass("loading").fadeOut();
     return this
 };
-
 
 $(window).scroll(function() {
     if ($(".navbar").offset().top > 50) {
