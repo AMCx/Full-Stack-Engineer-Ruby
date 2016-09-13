@@ -2,6 +2,7 @@ class Character
 
   ATTRS = [:id,
            :name,
+           :description,
            :thumbnail
   ]
 

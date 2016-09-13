@@ -3,26 +3,22 @@
   <header id="custom-nav" class="navbar navbar-fixed-top navbar-inverse">
     <div class="container">
       <div class="row">
-        <img src="<%= image_path('marvel_logo')%>" alt="" id="logo">
+        <img src="<%= image_path('marvel_logo') %>" alt="" id="logo">
       </div>
 
       <div class="search-area row" style="align-content: center">
 
-        <%= form_tag(root_path, method: 'get', id: 'comics-search-form', role: 'search', class: 'character-search', remote: false) do %>
+        <%= form_tag(root_path, method: 'get', id: 'comics-search-form', role: 'search', class: 'character-search', remote: true) do %>
 
             <div class="ui-widget">
 
-              <img id="character-icon" src="<%= image_path( 'transparent_1x1') %>" class="ui-state-default hidden" alt="">
               <%= search_field(:search, :name,
                                class: 'form-control', id: 'character-name', role: 'main-search',
                                placeholder: t('page.comics.search_placeholder'),
-
                                maxlength: 40, size: 40,
-                               #autosave: true, onsearch: true
-                               ) %>
-              <input type="hidden" id="character-id">
-              <p id="character-description"></p>
-
+                  ) %>
+              <input type="hidden" id="character-id" name="character_id" value="<%=params[:character_id]%>">
+              <input type="hidden" id="page" name="page" value="1>">
               <div class="results" id="character-search-results"></div>
 
             </div>
@@ -35,28 +31,11 @@
       </div>
     </div>
   </header>
+  <div class="comics-list-container">
 
-  <% if @comics.present? %>
-      <div class="row comics-list-container">
+    <%= render partial: '/comics/partials/comics', locals: {comics: @comics, page: @page, last_page: @last_page } %>
 
-        <% @comics.each do |comic| %>
-            <%= render partial: '/comics/partials/comic', locals: {comic: comic} %>
-        <% end -%>
-
-      </div>
-      <div class="row paging">
-        <div class="previous-page col-xs-12 col-sm-6 col-md-6 col-lg-6" role="previous-page">
-          <%= link_to(t('page.comics.previous-page'), root_path(offset: (@offset.to_i-(@limit.to_i))), limit: @limit, class: '' )%>
-        </div>
-        <div class="next-page col-xs-12 col-sm-6 col-md-6 col-lg-6" role="next-page">
-          <%= link_to(t('page.comics.next-page'), root_path(offset: ((@offset||0).to_i+(@limit.to_i))), limit: @limit, class: '' )%>
-        </div>
-      </div>
-  <% else %>
-      <div class="missing-comics-container">
-      <%= t('page.comics.no_results') %>
-      </div>
-  <% end -%>
+  </div>
 
 </div>
 

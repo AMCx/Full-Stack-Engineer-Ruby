@@ -22,10 +22,14 @@ app.comics = function () {
 
         // Cache some selectors
         that.screenContainer = $('.comics');
+        that.comicMosaic = that.screenContainer.find('.mosaic');
         that.form = $('form#comics-search-form');
+        that.searchCharacterName = that.form.find("#character-name");
         that.mainSearchField = that.form.find("[role='main-search']");
 
         that.favorite = that.screenContainer.find("[role='favorite']");
+        that.nextPage = that.screenContainer.find("[role='next-page']");
+        that.previousPage = that.screenContainer.find("[role='previous-page']");
 
         return that;
     };
@@ -36,8 +40,12 @@ app.comics = function () {
             selectFirst: true,
             source: function (request, response) {
 
+                $(that.searchCharacterName).addClass('loading');
+
                 var term = request.term;
                 if (term in cache) {
+
+                    $(that.searchCharacterName).removeClass('loading');
                     response(cache[term]);
                     return;
                 }
@@ -45,67 +53,39 @@ app.comics = function () {
                 $.getJSON("/api/characters?term=" + request.term, function (data) {
 
                     cache[term] = data;
+                    $(that.searchCharacterName).removeClass('loading');
 
                     response($.map(data.characters, function (character) {
                         return {
-                            label: character.name,
-                            value: character.id,
-                            url: character.comics_url
+                            name: character.name,
+                            id: character.id,
+                            icon: character.icon
                         };
                     }));
                 });
             },
             minLength: 2,
             delay: 100,
+            appendTo: '#character-search-results',
             select: function (event, ui) {
 
-                $("#character-name").val(ui.item.label);
-                $("#character-id").val(ui.item.value);
-                $("#character-description").html(ui.item.url);
+                $("#character-name").val(ui.item.name);
+                $("#character-id").val(ui.item.id);
+
+                that.form.submit();
+
                 return false;
             }
         }).autocomplete("instance")._renderItem = function (ul, item) {
-            console.log('ui.item: ', item);
-            return $("<li>")
-                .append("<div>" +
-                    "<img id=\"character-icon\" src=\"" + item.icon + "\" class=\"ui-state-default\" alt=\"\">" +
-                    item.label + "<br>" + item.url + item.icon + "</div>")
+            return $("<li class='ui-character' id='ui-character-"+item.id+"'>")
+                .append("<span>" + "<img id=\"character-icon\" src=\"" + item.icon + "\" class=\"ui-state-default\" alt=\"\">" + "</span>")
+                .append("<span>" +item.name + "</span>")
                 .appendTo(ul);
         };
-        ;
-
-        /*
-         var cache = {};
-         $(that.mainSearchField).autocomplete({
-         minLength: 0,
-         selectFirst: true,
-         change: that.onMainSearchChange,
-         focus: function () {
-         // prevent value inserted on focus
-         return false;
-         },
-         source: function (request, response) {
-         var term = request.term;
-         if (term in cache) {
-         response(cache[term]);
-         return;
-         }
-
-         $.getJSON('/api/characters', request, function (data, status, xhr) {
-         cache[term] = data;
-         response(data);
-         });
-         }
-         });
-         */
 
     };
 
     //Methods
-
-    this.onMainSearchChange = function (evt) {
-        console.log('onMainSearchChange');
-    };
 
     this.remoteCallFailure = function (jqXHR, textStatus, errorThrown) {
         utils.hideLoading();
@@ -118,7 +98,7 @@ app.comics = function () {
             newest_on_top: true,
             delay: 3000
         });
-    }
+    };
 
     this.onAddFavorite = function (favorite) {
 
@@ -127,6 +107,7 @@ app.comics = function () {
         }
 
         var _success = function (data) {
+            favorite.parent().addClass('favorite-comic');
             favorite.addClass('heart-on');
             favorite.removeClass('heart-off');
 
@@ -161,6 +142,7 @@ app.comics = function () {
         }
 
         var _success = function (data) {
+            favorite.parent().removeClass('favorite-comic');
             favorite.addClass('heart-off');
             favorite.removeClass('heart-on');
             utils.hideLoading();
@@ -183,8 +165,7 @@ app.comics = function () {
             success: _success,
             error: that.remoteCallFailure
         })
-    }
-
+    };
 
     this.onToggleFavorite = function () {
         var _favorite = $(this);
@@ -196,13 +177,49 @@ app.comics = function () {
         } else {
             that.onRemoveFavorite(_favorite);
         }
-     };
+    };
+
+    this.onGoToNextPage = function( event ) {
+        utils.showLoading();
+    };
+
+    this.onGoToPreviousPage = function( event ) {
+        utils.showLoading();
+    };
+
+    this.onShowDetails = function( event ) {
+        var _comic = $(this);
+        var _favorite = _comic.find('.favorites');
+        var _info = _comic.find('.comic-info-container');
+        var _release = _comic.find('.comic-release-container');
+        _comic.find('.comic-item').addClass('layer');
+        _favorite.removeClass('hidden');
+        _info.removeClass('hidden');
+        _release.removeClass('hidden');
+    };
+
+    this.onHideDetails = function( event ) {
+        var _comic = $(this);
+        var _favorite = _comic.find('.favorites');
+        var _info = _comic.find('.comic-info-container');
+        var _release = _comic.find('.comic-release-container');
+
+        _comic.find('.comic-item').removeClass('layer');
+        if(_favorite.hasClass('heart-off')){
+            _favorite.addClass('hidden');
+        }
+        _info.addClass('hidden');
+        _release.addClass('hidden');
+
+    };
 
     this.addEventListeners = function () {
 
+        $(that.comicMosaic).on('mouseover', that.onShowDetails);
+        $(that.comicMosaic).on('mouseout', that.onHideDetails);
         $(that.favorite).on('click', that.onToggleFavorite);
-
-        //$(that.mainSearchField).on('click', that.onExperiencesTabElemSelected);
+        $(that.nextPage).on('click', that.onGoToNextPage);
+        $(that.previousPage).on('click', that.onGoToPreviousPage);
 
         $(that.form).submit(function () {
             utils.showLoading();
@@ -213,9 +230,7 @@ app.comics = function () {
 
     this.loadScreen();
 
-
-}
-;
+};
 
 $(document).ready(app.comics);
 $(document).on('page:load', app.comics);

@@ -12,10 +12,9 @@ class Comic
 
   #autoassign object attributes from hash
   def initialize(params= {})
-    params.each { |k, v| instance_variable_set("@#{k.to_s.underscore}", v) if ATTRS.include?(k.to_sym) }
+    params.each { |k, v| instance_variable_set("@#{k.to_s.underscore}", v) if ATTRS.include?(k.to_s.underscore.to_sym) }
     set_dates
     #@favorite=  [true, false].sample
-
   end
 
   def thumbnail_img

@@ -10,4 +10,15 @@ feature "List Comics", :type => :feature do
 
   end
 
+  it "should allow filter by character name" do
+    visit root_path
+
+    within "#search-filters" do
+      fill_in "character_name", with: "Hulk"
+    end
+
+    expect(page).to have_selector('#search-filters .by-character-filter')
+
+  end
+
 end

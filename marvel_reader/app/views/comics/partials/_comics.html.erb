@@ -1,0 +1,22 @@
+<% if comics.present? %>
+<div class="row">
+
+    <% comics.each do |comic| %>
+        <%= render partial: '/comics/partials/comic', locals: { comic: comic } %>
+    <% end -%>
+
+</div>
+
+    <div class="row paging">
+      <div class="previous-page col-xs-12 col-sm-6 col-md-6 col-lg-6">
+        <%= link_to(t('page.comics.previous-page'), root_path(get_previous_page_params(page)), role: "previous-page", remote: true) if page > 1 %>
+      </div>
+      <div class="next-page col-xs-12 col-sm-6 col-md-6 col-lg-6">
+        <%= link_to(t('page.comics.next-page'), root_path(get_next_page_params(page)), class: '', role: "next-page", remote: true) unless last_page %>
+      </div>
+    </div>
+<% else %>
+    <div class="missing-comics-container">
+      <%= t('page.comics.no_results') %>
+    </div>
+<% end -%>

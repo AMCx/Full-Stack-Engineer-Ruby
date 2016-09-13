@@ -1,18 +1,14 @@
 <div class="mosaic col-xs-12 col-sm-6 col-md-6 col-lg-2 comic-container" id="comic_<%= comic.id %>" data-comic-id="<%= comic.id %>" style="background-image: url(<%= comic.thumbnail_img %>)">
-  <%#= image_tag comic.thumbnail_img , alt: comic.title , width: '225px', height: '324px' %>
-
 
   <div class="comic-item <%= comic.favorite ? 'favorite-comic' : '' %>">
 
-    <div class="pull-right row favorites <%= comic.favorite ? 'heart-on' : 'heart-off' %>" role="favorite" data-comic-id="<%= comic.id %>" ></div>
+    <div class="pull-right row favorites <%= comic.favorite ? 'heart-on' : 'heart-off hidden' %>" role="favorite" data-comic-id="<%= comic.id %>" ></div>
 
-    <div class="row comic-info-container">
-
+    <div class="row comic-info-container hidden">
       <%= comic.title %>
-
     </div>
 
-    <div class="row comic-release-container">
+    <div class="row comic-release-container hidden">
 
       <div class="col-xs-6 comic-number">
         #<%= comic.issue_number %>

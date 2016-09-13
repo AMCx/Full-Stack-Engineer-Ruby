@@ -1,0 +1,14 @@
+
+$('.comics-list-container').html("<%= escape_javascript ( render partial: '/comics/partials/comics', locals: {comics: @comics, page: @page, last_page: @last_page } ) %>");
+
+$(document).ready(app.comics);
+$(document).on('page:load', app.comics);
+<% if @page.present? %>
+history.pushState('data', '', utils.updateQueryStringParameter(window.location.href, 'page', <%=@page %>));
+<% end -%>
+<% if params[:character_id].present? %>
+history.pushState('data', '', utils.updateQueryStringParameter(window.location.href, 'character_id', <%=params[:character_id] %>));
+<% end -%>
+
+utils.hideLoading();
+

@@ -8,7 +8,6 @@ $shadow: #555555;
 $lightText: #FFF;
 $darkText: #000;
 
-
 body {
   padding-top: 90px;
 }
@@ -56,6 +55,10 @@ p {
   line-height: 1.7em;
 }
 
+input.loading {
+  background: #FFF asset_url('loading.gif') no-repeat right center;
+}
+
 /* header */
 
 #logo {
@@ -85,46 +88,76 @@ p {
 #custom-nav.affix {
   top: 0;
   min-width: 100%;
-  background-color: $mainColor;
-  opacity: 0.8;
-  -webkit-transition: background .5s ease-in-out, opacity .5s ease;
-  -moz-transition: background .5s ease-in-out, opacity .5s ease;
+  background-color: rgba(254, 0, 0, 0.9);
+
   transition: background .5s ease-in-out, opacity .5s ease;
 }
 
 //Comics
 
 .comics {
-width: 100%;
+  width: 100%;
   background-color: $secondaryColor;
 
   .comic-item {
-
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-
   }
 
   .layer {
     background-color: rgba(23, 23, 24, 0.7);
   }
 
+  @media (max-width: 768px) {
+    .mosaic {
+      width: 365px;
+      height: 524px;
+    }
+    #character-name {
+      max-width: 400px;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .mosaic {
+      width: 350px;
+      height: 503px;
+    }
+    #character-name {
+      max-width: 400px;
+    }
+  }
+
+  @media (min-width: 992px) {
+    .mosaic {
+      width: 220px;
+      height: 321px;
+    }
+    #character-name {
+      max-width: 400px;
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .mosaic {
+      width: 220px;
+      height: 321px;
+    }
+    #character-name {
+      max-width: 400px;
+    }
+  }
+
   .mosaic {
     margin: 6px;
     padding: 0px;
-    width: 220px;
-    height: 321px;
+    //width: 220px;
+    //height: 321px;
 
-    //box-shadow: -3px 6px 5px $darkText;
-    box-shadow:  0px 3px 40px -2px $shadow;
+    box-shadow: 0px 3px 40px -2px $shadow;
     background-size: 100%;
-
-    :hover {
-      cursor: pointer;
-      cursor: hand;
-    }
 
     .comic-release-container {
 
@@ -143,6 +176,7 @@ width: 100%;
 
       .comic-year {
         color: $lightText;
+        font-family: "Helvetica Neue", Helvetica, Arial, Sans-Serif;
         font-size: 15px;
         font-style: italic;
         text-align: center;
@@ -169,28 +203,28 @@ width: 100%;
       font-weight: bold;
 
     }
-
   }
 
   .comics-list-container {
-
   }
-
 
   .favorite-comic {
     border: solid 10px $mainColor;
   }
 
   .favorites {
-    padding-top: 15px;
+    padding-top: 5px;
     padding-rigth: 15px;
-    //border: solid 1px $mainColor;
     width: 42px;
     height: 39px;
     position: absolute;
     right: 25px;
     top: 15px;
+  }
 
+  .favorites:hover {
+    cursor: pointer;
+    cursor: hand;
   }
 
   .heart-on {
@@ -224,35 +258,31 @@ width: 100%;
       background-color: $mainColor;
       color: #FFFFFF;
     }
-  }
 
-  .paging {
     margin-top: 25px;
     margin-bottom: 25px;
   }
 
   .paging a {
-    padding: 3px 8px 3px 8px;
     background-color: #FFFFFF;
     color: $mainColor;
     font-size: 21px;
     text-transform: uppercase;
     font-weight: bold;
+    padding-left: 5px;
+    padding-right: 5px;
     :hover {
       background-color: $mainColor;
       color: #FFFFFF;
     }
-
   }
 
   //Search
 
   #logo {
-
     margin: auto;
     width: 130px;
     display: block;
-
   }
 
   .center-search {
@@ -265,21 +295,26 @@ width: 100%;
     font-weight: bold;
     margin-bottom: 1em;
   }
+
   #character-icon {
     float: left;
-    height: 32px;
-    width: 32px;
+    height: 24px;
+    width: 24px;
   }
+
   #character-description {
     margin: 0;
     padding: 0;
   }
 
-
   #character-name {
-    max-width: 400px;
-    margin:auto;
+    margin: auto;
   }
+
+  .ui-autocomplete {
+    z-index: 1001;
+  }
+
   .form-control::-webkit-input-placeholder {
     font-style: italic;
   }

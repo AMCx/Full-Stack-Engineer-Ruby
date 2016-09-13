@@ -17,27 +17,26 @@ module Api::V1
         @characters = _comic_reader.result['data']['results'].map do |data|
           Character.new(data)
         end
-byebug
+
         # a very, very simple serialization
         _response_json = @characters.map do |character|
           {
               id: character.id,
               name: character.name,
-              icon: character.thumbnail_img,
-              comics_url: root_path({character_id: character.id}.merge(_page_params))
+              icon: character.thumbnail_img
           }
         end
 
         build_response({characters: _response_json})
       else
-        build_response({error: _comic_reader.message}, false, -1, t('pages.comics.index.errors.not_found'), 404)
+        build_response({error: _comic_reader.message}, false, -1, t('errors.record_not_found'), 404)
       end
 
     end
 
     private
     def accepted_params
-      params.permit(:limit, :offset, :order_by) #, {search: [:name]})
+      params.permit(:limit, :offset, :order_by)
     end
 
   end
