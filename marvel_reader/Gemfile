@@ -40,6 +40,7 @@ group :development, :test do
 	gem 'rspec-rails'
   gem 'factory_girl_rails'
   gem 'capybara'
+  gem 'selenium-webdriver'
   gem 'guard-rspec'
   gem 'spring-commands-rspec'
   gem 'vcr'
@@ -49,6 +50,7 @@ end
 group :test do
   gem 'webmock'
   gem 'shoulda-matchers', '~> 3.0', require: false
+  gem 'database_cleaner'
 end
 
 group :development do
@@ -59,13 +61,14 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
 
-  gem 'dotenv-rails'
   gem 'better_errors'
 
 end
 
+gem 'dotenv-rails'
+
 group :production do
-  gem 'pg'
+  #gem 'pg'
   gem 'lograge'
 end
 

@@ -10,9 +10,6 @@ module Remotes
       init_service_params
 
       #init query params
-      @resource = context.resource || 'comics'
-      @resource_id = context.resource_id || false
-      @sub_resource = context.sub_resource || false
 
       @timeout = context.timeout || 10
       _search = (context.search || {}).with_indifferent_access
@@ -39,46 +36,63 @@ module Remotes
 
       Rails.logger.debug("Calling remote service with: #{@resource_filter} #{@params}")
 
-      #set cache_key
-      @key = "@resource::#{@resource_filter}#{@params.map { |k, v| "#{k}:#{v}".downcase }.sort_by! { |e| e }.join('::')}"
+      build_cache_key
 
-      Rails.logger.debug("cache_key: #{@key}")
+      @launch_request = true
 
-      # check cache
-      _cached_data = Rails.cache.read(@key) unless !allow_cache
+      if allow_cache
+        # check cache
+        _cached_data = Rails.cache.read(@key) unless !allow_cache
+        if _cached_data.present? 
+          @age = (Time.now - _cached_data[:timestamp]) # age in seconds
+          Rails.logger.debug("Local cache hit!, cache age is #{@age}")
 
-      if !allow_cache || @cached_data.blank?
-        @launch_request = true
-      else
-
-        @data = _cached_data[:info]
-        @age = (Time.now - _cached_data[:timestamp]) # age in seconds
-
-        if @age > max_cache_age
-          @launch_request = true
+          if @age <= max_cache_age
+            @launch_request = false
+            @data = _cached_data[:info]
+          end
         end
+
       end
+
 
       if @launch_request
         Rails.logger.debug("No local cache, calling remote")
         launch_api_request
-      else
-        Rails.logger.debug("Local cache hit!, cache age is #{@age}")
       end
 
       context.result = @data
 
     end
 
-    def build_resource_filter
+    private
 
-      @resource_filter = @resource
-      @resource_filter = "#{@resource}/#{@resource_id}" if @resource_id
-      @resource_filter = "#{@resource}/#{@resource_id}/#{@sub_resource}" if @resource_id && @sub_resource
+
+    def build_cache_key
+
+      #set cache_key
+      @key = "@resource::#{@resource_filter}#{@params.map { |k, v| "#{k}:#{v}".downcase }.sort_by! { |e| e }.join('::')}"
+
+      Rails.logger.debug("cache_key: #{@key}")
 
     end
 
-    private
+    def build_resource_filter
+
+      _resource = context.resource || 'comics'
+      _resource_id = context.resource_id || false
+      _sub_resource = context.sub_resource || false
+
+
+      if _resource_id && _sub_resource
+        @resource_filter = "#{_resource}/#{_resource_id}/#{_sub_resource}" 
+      elsif _resource_id
+        @resource_filter = "#{_resource}/#{_resource_id}"
+      else
+        @resource_filter = _resource
+      end
+
+    end
 
     def launch_api_request
 
@@ -115,7 +129,6 @@ module Remotes
       @api_base_url = "http://gateway.marvel.com/v1/public/"
       @ts = Time.now.to_i
 
-      @launch_request = false
       get_auth_data
 
       md5 = Digest::MD5.new

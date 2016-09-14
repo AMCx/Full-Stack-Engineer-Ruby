@@ -21,7 +21,7 @@ class Services::CharacterFinder
       context.characters = @characters
     else
       context.characters = []
-      context.fail(message: t('errors.record_not_found'))
+      context.fail!(message: I18n.t('errors.record_not_found'))
     end
 
   end

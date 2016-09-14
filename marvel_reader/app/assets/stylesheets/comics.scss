@@ -205,6 +205,15 @@ input.loading {
     }
   }
 
+  .missing-comics-container{
+    color: #eee;
+    font-size: 28px;
+    align-items: center;
+    width: 380px;
+    margin: auto;
+    margin-top: 100px;
+  }
+
   .comics-list-container {
   }
 
@@ -330,5 +339,4 @@ input.loading {
   .form-control {
     height: 37px;
   }
-
 }

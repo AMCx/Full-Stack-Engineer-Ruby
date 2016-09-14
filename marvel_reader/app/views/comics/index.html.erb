@@ -3,7 +3,9 @@
   <header id="custom-nav" class="navbar navbar-fixed-top navbar-inverse">
     <div class="container">
       <div class="row">
-        <img src="<%= image_path('marvel_logo') %>" alt="" id="logo">
+
+        <%= link_to image_tag(image_path('marvel_logo'), id:'logo'), root_path, role: 'root-link'%>
+
       </div>
 
       <div class="search-area row" style="align-content: center">
@@ -17,6 +19,7 @@
                                placeholder: t('page.comics.search_placeholder'),
                                maxlength: 40, size: 40,
                   ) %>
+
               <input type="hidden" id="character-id" name="character_id" value="<%=params[:character_id]%>">
               <input type="hidden" id="page" name="page" value="1>">
               <div class="results" id="character-search-results"></div>

@@ -25,17 +25,20 @@ app.comics = function () {
         that.comicMosaic = that.screenContainer.find('.mosaic');
         that.form = $('form#comics-search-form');
         that.searchCharacterName = that.form.find("#character-name");
+        that.searchCharacterId = that.form.find("#character-id");
         that.mainSearchField = that.form.find("[role='main-search']");
 
         that.favorite = that.screenContainer.find("[role='favorite']");
         that.nextPage = that.screenContainer.find("[role='next-page']");
         that.previousPage = that.screenContainer.find("[role='previous-page']");
+        that.rootLnk = that.screenContainer.find("[role='root-link']");
+        that.logo = that.screenContainer.find("#logo");
 
         return that;
     };
 
     this.applyPlugins = function () {
-        var cache = {};
+
         $(that.mainSearchField).autocomplete({
             selectFirst: true,
             source: function (request, response) {
@@ -43,16 +46,9 @@ app.comics = function () {
                 $(that.searchCharacterName).addClass('loading');
 
                 var term = request.term;
-                if (term in cache) {
-
-                    $(that.searchCharacterName).removeClass('loading');
-                    response(cache[term]);
-                    return;
-                }
 
                 $.getJSON("/api/characters?term=" + request.term, function (data) {
 
-                    cache[term] = data;
                     $(that.searchCharacterName).removeClass('loading');
 
                     response($.map(data.characters, function (character) {
@@ -77,10 +73,13 @@ app.comics = function () {
                 return false;
             }
         }).autocomplete("instance")._renderItem = function (ul, item) {
+
             return $("<li class='ui-character' id='ui-character-"+item.id+"'>")
+                .data( "ui-autocomplete-item", item )
                 .append("<span>" + "<img id=\"character-icon\" src=\"" + item.icon + "\" class=\"ui-state-default\" alt=\"\">" + "</span>")
                 .append("<span>" +item.name + "</span>")
                 .appendTo(ul);
+
         };
 
     };
@@ -111,7 +110,7 @@ app.comics = function () {
             favorite.addClass('heart-on');
             favorite.removeClass('heart-off');
 
-            utils.hideLoading();
+            //utils.hideLoading();
             $.notify({
                 message: data.message
             }, {
@@ -122,7 +121,7 @@ app.comics = function () {
 
         };
 
-        utils.showLoading();
+        //utils.showLoading();
         $.ajax({
             type: "POST",
             url: "/api/favorites/",
@@ -145,7 +144,7 @@ app.comics = function () {
             favorite.parent().removeClass('favorite-comic');
             favorite.addClass('heart-off');
             favorite.removeClass('heart-on');
-            utils.hideLoading();
+            //utils.hideLoading();
 
             $.notify({
                 message: data.message
@@ -156,7 +155,7 @@ app.comics = function () {
             });
 
         };
-        utils.showLoading();
+        //utils.showLoading();
         $.ajax({
             type: "DELETE",
             url: "/api/favorites/" + favorite.data('comic-id'),
@@ -220,9 +219,17 @@ app.comics = function () {
         $(that.favorite).on('click', that.onToggleFavorite);
         $(that.nextPage).on('click', that.onGoToNextPage);
         $(that.previousPage).on('click', that.onGoToPreviousPage);
+        $(that.rootLnk).on('click', utils.showLoading);
 
-        $(that.form).submit(function () {
+        $(that.form).submit(function (e) {
             utils.showLoading();
+
+            if($(that.searchCharacterName).val() == ''){
+                $(that.searchCharacterId).val('');
+            }
+
+            var _characterId= $(that.searchCharacterId).val();
+            
             return true;
         });
 
